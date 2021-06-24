@@ -1,4 +1,4 @@
-import /*React,*/ { Fragment } from 'react';
+import { Fragment } from 'react';
 
 import Header from './components/Layout/Header';
 
@@ -7,7 +7,6 @@ import Header from './components/Layout/Header';
 function App() {
   return (
     <Fragment>
-      {/* <h2>Let's get started!</h2> */}
       <Header />
     </Fragment>
   );
