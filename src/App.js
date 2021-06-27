@@ -20,13 +20,11 @@ function App() {
 
   return (
     <CartProvider>
-    {/* <Fragment> */}
       {cartIsShown && <Cart onHideCart={hideCartHandler} />}
       <Header onShowCart={showCartHandler} />
       <main>
         <Meals />
       </main>
-    {/* </Fragment> */}
     </CartProvider>
   );
 };
