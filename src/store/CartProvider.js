@@ -9,9 +9,31 @@ const defaultCartState = {
 
 const cartReducer = (prevState, action) => {
    if (action.type === 'ADD') {
-      // concat array method returns a new array not affecting prevState (immutability)
-      const updatedItems = prevState.items.concat(action.item);
       const updatedTotalAmount = prevState.totalAmount + action.item.amount * action.item.price;
+
+      //* Returns the idex of an item if it exists
+      const existingCartItemIndex = prevState.items.findIndex(
+         item => item.id === action.item.id
+      );
+      const existingCartItem = prevState.items[existingCartItemIndex];
+      //let updatetItem;
+      let updatedItems;
+
+      if (existingCartItem) {
+         // updatetItem = {
+         const updatetItem = {
+            ...existingCartItem,
+            amount: existingCartItem.amount + action.item.amount
+         };
+         updatedItems = [...prevState.items];
+         updatedItems[existingCartItemIndex] = updatetItem;
+      } else {
+         updatedItems = prevState.items.concat(action.item);
+      }
+
+      // concat array method returns a new array not affecting prevState (immutability)
+      //* Didn't groups amounts by meal
+      // const updatedItems = prevState.items.concat(action.item);
       return {
          items: updatedItems,
          totalAmount: updatedTotalAmount
