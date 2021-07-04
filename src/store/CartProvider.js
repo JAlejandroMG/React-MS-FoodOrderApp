@@ -16,17 +16,17 @@ const cartReducer = (prevState, action) => {
          item => item.id === action.item.id
       );
       const existingCartItem = prevState.items[existingCartItemIndex];
-      //let updatetItem;
+      //let updatedItem;
       let updatedItems;
 
       if (existingCartItem) {
-         // updatetItem = {
-         const updatetItem = {
+         // updatedItem = {
+         const updatedItem = {
             ...existingCartItem,
             amount: existingCartItem.amount + action.item.amount
          };
          updatedItems = [...prevState.items];
-         updatedItems[existingCartItemIndex] = updatetItem;
+         updatedItems[existingCartItemIndex] = updatedItem;
       } else {
          updatedItems = prevState.items.concat(action.item);
       }
@@ -39,9 +39,35 @@ const cartReducer = (prevState, action) => {
          totalAmount: updatedTotalAmount
       }
    }
+
+   if (action.type === 'REMOVE') {      
+      //* Returns the index of the modified item
+      const existingCartItemIndex = prevState.items.findIndex(
+         item => item.id === action.id
+      );
+      //* Gets the modified item
+      const existingCartItem = prevState.items[existingCartItemIndex];
+      //* Updates the modified item data
+      const updatedItem = {
+         ...existingCartItem,
+         amount: existingCartItem.amount - 1
+      };
+      //* Updates the amount due of the modified item
+      const updatedTotalAmount = prevState.totalAmount - 1 * existingCartItem.price;
+
+      //* Variable for the new array of items after removing one of them
+      let updatedItems;
+      updatedItems = [...prevState.items];
+      updatedItems[existingCartItemIndex] = updatedItem;
+
+      return {
+         items: updatedItems,
+         totalAmount: updatedTotalAmount
+      }
+   };
+
    return;
 };
-
 
 
 const CartProvider = props => {
@@ -52,7 +78,7 @@ const CartProvider = props => {
    };
 
    const removeItemfromCartHandler = id => {
-      dispatchCartAction({tpe:'REMOVE', id: id})
+      dispatchCartAction({type:'REMOVE', id: id})
    };
 
    const cartContext = {
