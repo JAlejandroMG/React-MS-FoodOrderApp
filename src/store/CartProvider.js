@@ -10,7 +10,7 @@ const defaultCartState = {
 const cartReducer = (prevState, action) => {
    if (action.type === 'ADD') {
       // concat array method returns a new array not affecting prevState (immutability)
-      const updatedItems = state.items.concat(action.item);
+      const updatedItems = prevState.items.concat(action.item);
       const updatedTotalAmount = prevState.totalAmount + action.item.amount * action.item.price;
       return {
          items: updatedItems,
@@ -25,7 +25,6 @@ const cartReducer = (prevState, action) => {
 const CartProvider = props => {
    const [cartState, dispatchCartAction] = useReducer(cartReducer, defaultCartState)
 
-   //* This function is ready, now it needs to be calleds
    const addItemToCartHandler = item => {
       dispatchCartAction({type: 'ADD', item: item});
    };
